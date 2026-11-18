@@ -1,0 +1,83 @@
+[workspace]
+authors = ["Griffiths, Ethan (Data61, Pullenvale) <ethan.griffiths@data61.csiro.au>"]
+channels = ['conda-forge']
+name = "M3GAWild-LPR-MMPR"
+platforms = [
+  { platform = "linux-64", cuda = "12.0" },
+]
+version = "1.1.0"
+
+[tasks]
+# Run once via `pixi run install-minkowskiengine` without opening a shell
+install-minkowskiengine = """
+bash -c '
+  set -eu
+  export MAX_JOBS="4"
+  DIR="/tmp/MinkowskiEngine-HOTFLoc-install-$USER"
+  if [[ -d "$DIR" ]]; then
+      rm -rf "$DIR"
+  fi && \
+  git clone --recursive https://github.com/CiSong10/MinkowskiEngine.git "$DIR" && \
+  cd "$DIR" && \
+  git checkout cuda12-installation && \
+  python setup.py install --blas_include_dirs=$CONDA_PREFIX/include --blas=openblas --force_cuda && \
+  rm -rf "$DIR"
+'
+"""
+
+[activation.env]
+CUDA_HOME = "$CONDA_PREFIX"
+LD_LIBRARY_PATH = "$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"
+
+[activation]
+scripts = ["env-setup.sh"]
+
+[pypi-options]
+no-build-isolation = ["dwconv", "geotransformer", "MinkowskiEngine"]
+
+[dependencies]
+python = "3.11.*"
+numpy = "<2.0"
+pytorch-gpu = "2.4.*"
+cuda-version = "12.1.*"
+torchvision = ">=0.19.0,<0.20"
+setuptools = ">=64,<70"
+ninja = ">=1.13.2,<2"
+wheel = ">=0.48.0,<0.49"
+openblas = ">=0.3.34,<0.4"
+gcc_linux-64 = ">12.0,<13.0"
+gxx_linux-64 = ">12.0,<13.0"
+cuda-toolkit = ">=12.1.1,<13"
+cuda-nvtx-dev = ">=12.1.105,<13"
+
+[pypi-dependencies]
+pytorch-metric-learning = "==1.1.2"
+pandas = "*"
+scipy = "*"
+ocnn = "==2.2.7"
+tqdm = "*"
+laspy = { version = "*", extras = ["lazrs"] }
+scikit-learn = "*"
+scikit-image = "*"
+wget = "*"
+timm = "*"
+pyyaml = "*"
+matplotlib = "*"
+wandb = "*"
+open3d = "<0.20.0"
+shapely = "*"
+cloth-simulation-filter = "*"
+numba = "==0.59.1"
+easydict = "*"
+submitit = "*"
+coloredlogs = "*"
+umap-learn = "*"
+einops = "*"
+ipdb = "*"
+tensorboard = "*"
+tensorboardx = "*"
+pytest = "*"
+rasterio = "*"
+faiss-cpu = "==1.9.0"
+geotransformer = { path = "./libs/geotransformer", editable = true }
+dwconv = { path = "./libs/dwconv" }

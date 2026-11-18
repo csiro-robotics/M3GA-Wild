@@ -1,0 +1,17 @@
+*.pyc
+*.pickle
+*.pth
+log*
+__pycache__
+slurm*
+.vscode
+pr_results
+checkpoints*
+runs*
+positive*
+modules*
+data*
+
+# pixi environments
+.pixi/*
+!.pixi/config.toml

@@ -1,0 +1,15 @@
+.idea
+.vscode
+build
+output
+*.egg-info
+*.so
+**/__pycache__
+weights/*
+pretrained
+data/Kitti/sequences
+data/Kitti/downsampled
+data/ModelNet/*.pkl
+data/3DMatch/data
+data/Wild-Places/data
+node_coloring_pcls/

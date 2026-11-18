@@ -1,0 +1,118 @@
+def get_query_database_splits(params):
+    if params.dataset_name == 'Oxford':
+        eval_database_files = ['oxford_evaluation_database.pickle', 'university_evaluation_database.pickle',
+                               'residential_evaluation_database.pickle', 'business_evaluation_database.pickle']
+        eval_query_files = ['oxford_evaluation_query.pickle', 'university_evaluation_query.pickle',
+                            'residential_evaluation_query.pickle', 'business_evaluation_query.pickle']
+    elif params.dataset_name.lower() == 'mulran':
+        eval_database_files = [
+            'DCC_10.0_5_database.pickle',
+            'Sejong_0.2_20_database.pickle',
+            'KAIST_10.0_5_database.pickle',
+            'Riverside_10.0_5_database.pickle',
+        ]
+        eval_query_files = [
+            'DCC_10.0_5_query.pickle',
+            'Sejong_0.2_20_query.pickle',
+            'KAIST_10.0_5_query.pickle',
+            'Riverside_10.0_5_query.pickle',
+        ]
+    elif params.dataset_name.lower() == 'southbay':  # NOTE: Eval won't run on Southbay if its the secondary train dataset
+        eval_database_files = ['SunnyvaleBigloop_1.0_5_database.pickle']
+        eval_query_files = ['SunnyvaleBigloop_1.0_5_query.pickle']
+    elif 'AboveUnder' in params.dataset_name:
+        eval_database_files = [
+            # 'above-under_Beetaloo_evaluation_database.pickle',
+            'above-under_Karawatha_evaluation_database.pickle',
+            'above-under_QCAT_evaluation_database.pickle', 
+            'above-under_Samford_evaluation_database.pickle',
+            'above-under_Robson_evaluation_database.pickle', 
+        ]
+        eval_query_files = [
+            # 'above-under_Beetaloo_evaluation_query.pickle',
+            'above-under_Karawatha_evaluation_query.pickle',
+            'above-under_QCAT_evaluation_query.pickle', 
+            'above-under_Samford_evaluation_query.pickle',
+            'above-under_Robson_evaluation_query.pickle', 
+        ]
+    elif 'M3GAWild_airborne_lidaronly' in params.dataset_name:
+        eval_database_files = [
+            'M3GAWild-airborne_Karawatha_evaluation_database.pickle',
+            'M3GAWild-airborne_Venman_evaluation_database.pickle',
+            'M3GAWild-airborne_QCAT_evaluation_database.pickle',
+            'M3GAWild-airborne_Samford_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'M3GAWild-airborne_Karawatha_evaluation_query.pickle',
+            'M3GAWild-airborne_Venman_evaluation_query.pickle',
+            'M3GAWild-airborne_QCAT_evaluation_query.pickle',
+            'M3GAWild-airborne_Samford_evaluation_query.pickle',
+        ]
+    elif 'M3GAWild_airborne' in params.dataset_name:
+        eval_database_files = [
+            'M3GAWild-airborne_Karawatha_evaluation_database.pickle',
+            'M3GAWild-airborne_Venman_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'M3GAWild-airborne_Karawatha_evaluation_query.pickle',
+            'M3GAWild-airborne_Venman_evaluation_query.pickle',
+        ]
+    elif 'M3GAWild_lidaronly' in params.dataset_name:
+        eval_database_files = [
+            'M3GAWild-aerial_Karawatha_evaluation_database.pickle',
+            'M3GAWild-aerial_Venman_evaluation_database.pickle',
+            'M3GAWild-aerial_QCAT_evaluation_database.pickle',
+            'M3GAWild-aerial_Samford_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'M3GAWild-aerial_Karawatha_evaluation_query.pickle',
+            'M3GAWild-aerial_Venman_evaluation_query.pickle',
+            'M3GAWild-aerial_QCAT_evaluation_query.pickle',
+            'M3GAWild-aerial_Samford_evaluation_query.pickle',
+        ]
+    elif 'M3GAWild' in params.dataset_name:
+        eval_database_files = [
+            'M3GAWild-aerial_Karawatha_evaluation_database.pickle',
+            'M3GAWild-aerial_Venman_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'M3GAWild-aerial_Karawatha_evaluation_query.pickle',
+            'M3GAWild-aerial_Venman_evaluation_query.pickle',
+        ]
+    elif 'CSWildPlaces' in params.dataset_name:
+        eval_database_files = [
+            'CSWildPlaces_Karawatha_evaluation_database.pickle',
+            'CSWildPlaces_Venman_evaluation_database.pickle',
+            'CSWildPlaces_QCAT_evaluation_database.pickle', 
+            'CSWildPlaces_Samford_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'CSWildPlaces_Karawatha_evaluation_query.pickle',
+            'CSWildPlaces_Venman_evaluation_query.pickle',
+            'CSWildPlaces_QCAT_evaluation_query.pickle', 
+            'CSWildPlaces_Samford_evaluation_query.pickle',
+        ]
+    elif 'WildPlaces_5m_pos' in params.dataset_name:
+        eval_database_files = [
+            '5m-pickles/Karawatha_evaluation_database.pickle',
+            '5m-pickles/Venman_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            '5m-pickles/Karawatha_evaluation_query.pickle',
+            '5m-pickles/Venman_evaluation_query.pickle',
+        ]
+    elif 'WildPlaces' in params.dataset_name:
+        eval_database_files = [
+            'Karawatha_evaluation_database.pickle',
+            'Venman_evaluation_database.pickle',
+        ]
+        eval_query_files = [
+            'Karawatha_evaluation_query.pickle',
+            'Venman_evaluation_query.pickle',            
+        ]
+    elif params.dataset_name == 'CSCampus3D':
+        eval_database_files = ['umd_evaluation_database.pickle']
+        eval_query_files = ['umd_evaluation_query_v2.pickle']
+    else:
+        raise NotImplementedError(f'Dataset {params.dataset_name} has no splits implemented')
+    return eval_database_files, eval_query_files

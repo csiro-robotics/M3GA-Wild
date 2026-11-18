@@ -1,0 +1,30 @@
+import numpy as np
+import os
+import open3d as o3d
+
+from misc.point_clouds import PointCloudLoader
+from dataset.CSWildPlaces.processing_utils import load_bin_pcl
+
+
+class CSWildPlacesPointCloudLoader(PointCloudLoader):
+    def set_properties(self):
+        self.remove_zero_points = False
+        self.remove_ground_plane = False
+        self.ground_plane_level = None
+        self.intensity = False
+
+    def read_pc(self, file_pathname: str) -> np.ndarray:
+        # Reads the point cloud without pre-processing
+        # Returns Nx3 ndarray
+        file_path = os.path.join(file_pathname)
+        file_ext = os.path.splitext(file_path)[-1]
+        if file_ext == ".pcd":
+            pc_o3d = o3d.io.read_point_cloud(file_path)
+            pc = np.asarray(pc_o3d.points, dtype=np.float64)
+            pc = np.float32(pc)
+        elif file_ext == ".bin":
+            pc = load_bin_pcl(file_path, intensity=self.intensity)
+        else:
+            raise NotImplementedError('Invalid point cloud type')
+        
+        return pc

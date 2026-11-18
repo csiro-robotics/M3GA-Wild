@@ -1,0 +1,11 @@
+torch==2.1.1
+torchmetrics==1.2.0
+torchvision==0.16.0
+numpy==1.26.4
+pccm==0.4.16
+cumm-cu118==0.7.11
+cumm-cu122==0.5.2
+spconv-cu118==2.3.8
+pytorch-metric-learning==1.1.2
+einops==0.8.0
+opencv-python-headless==4.10.0.84

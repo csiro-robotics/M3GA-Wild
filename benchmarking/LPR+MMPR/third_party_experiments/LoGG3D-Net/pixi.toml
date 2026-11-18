@@ -1,0 +1,46 @@
+[workspace]
+authors = ["Griffiths, Ethan (Data61, Pullenvale) <ethan.griffiths@data61.csiro.au>"]
+channels = ['conda-forge']
+name = "LoGG3D-Net"
+platforms = [
+  { platform = "linux-64", cuda = "12.0" },
+]
+version = "0.1.0"
+
+[tasks]
+
+[activation.env]
+CUDA_HOME = "$CONDA_PREFIX"
+LD_LIBRARY_PATH = "$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"
+
+[activation]
+scripts = ["env-setup.sh"]
+
+[pypi-options]
+no-build-isolation = ["torchsparse"]
+
+[dependencies]
+python = "3.11.*"
+numpy = "<2.0"
+pytorch-gpu = "2.4.*"
+cuda-version = "12.1.*"
+torchvision = ">=0.19.0,<0.20"
+ninja = ">=1.13.2,<2"
+cuda-toolkit = "12.1.*"
+gcc_linux-64 = ">12.0,<13.0"
+gxx_linux-64 = ">12.0,<13.0"
+sparsehash = ">=2.0.4,<3"
+mpi4py = ">=4.1.2,<5"
+openmpi = ">=5.0.8,<6"
+
+[pypi-dependencies]
+torchpack = ">=0.3.0,<0.4.0"
+pandas = "*"
+scipy = "*"
+tqdm = "*"
+scikit-learn = "*"
+matplotlib = "*"
+open3d = "<0.19.0"
+torchsparse = { git = "https://github.com/mit-han-lab/torchsparse.git", rev = "74099d10a51c71c14318bce63d6421f698b24f24" }
+seaborn = ">=0.13.2, <0.14"
+

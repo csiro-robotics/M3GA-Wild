@@ -1,0 +1,29 @@
+[DEFAULT]
+# Follow README instructions to install dataset
+dataset_folder = ../data/M3GA-Wild
+
+[TRAIN]
+num_workers = 4
+batch_size = 2048
+batch_split_size = 128
+val_batch_size = 128
+save_freq = 10
+eval_freq = 10
+eval_radius = 10, 30
+
+lr = 1e-3
+epochs = 400
+scheduler_milestones = 250, 350
+aug_mode = 1
+set_aug_mode = 1
+normalize_points = True
+weight_decay = 1e-4
+loss = TruncatedSmoothAP
+tau1 = 0.01
+positives_per_query = 4
+
+dataset_name = M3GAWild_lidaronly
+skip_same_run = True
+train_file = training_queries_M3GAWild-aerial_baseline_v4.pickle
+val_file = test_queries_M3GAWild-aerial_v4.pickle
+validation = True

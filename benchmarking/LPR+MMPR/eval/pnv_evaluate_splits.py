@@ -1,0 +1,274 @@
+# Warsaw University of Technology
+
+# Evaluation using PointNetVLAD evaluation protocol and test sets
+# Evaluation code adapted from PointNetVlad code: https://github.com/mikacuy/pointnetvlad
+# Adapted to process samples in batches by Ethan Griffiths (QUT & CSIRO Data61).
+
+from sklearn.neighbors import KDTree
+import numpy as np
+import pickle
+import os
+import argparse
+import logging
+import torch
+import tqdm
+
+from models.model_factory import model_factory
+from misc.logger import create_logger
+from misc.utils import TrainingParams
+from misc.torch_utils import set_seed
+from eval.utils import get_query_database_splits
+from eval.pnv_evaluate import (
+    get_latent_vectors,
+    save_embeddings_to_file,
+    load_embeddings_from_file,
+    get_recall,
+)
+
+def evaluate(model, device, params: TrainingParams, log: bool = False,
+             model_name: str = 'model', show_progress: bool = False, 
+             save_embeddings: bool = False, load_embeddings: bool = False):
+    # Run evaluation on all eval datasets
+    eval_database_files, eval_query_files = get_query_database_splits(params)
+
+    assert len(eval_database_files) == len(eval_query_files)
+    stats = {}
+    ave_recall = []
+    ave_one_percent_recall = []
+    ave_mrr = []
+    for database_file, query_file in zip(eval_database_files, eval_query_files):
+        # Extract location name from query and database files
+        if any([name in params.dataset_name for name in ['AboveUnder', 'CSWildPlaces', 'M3GAWild']]):
+            if "pickles/" in database_file:  # CS-WildPlaces
+                location_name = database_file.split('/')[-1].split('_')[1]
+                temp = query_file.split('/')[-1].split('_')[1]
+            else:
+                location_name = database_file.split('_')[1]
+                temp = query_file.split('_')[1]
+        else:
+            location_name = database_file.split('_')[0]
+            temp = query_file.split('_')[0]
+        assert location_name == temp, 'Database location: {} does not match query location: {}'.format(database_file,
+                                                                                                       query_file)
+
+        p = os.path.join(params.dataset_folder, database_file)
+        with open(p, 'rb') as f:
+            database_sets = pickle.load(f)
+
+        p = os.path.join(params.dataset_folder, query_file)
+        with open(p, 'rb') as f:
+            query_sets = pickle.load(f)
+
+        if show_progress:
+            logging.info(f'Evaluating: {location_name}')
+        temp = evaluate_dataset(model, device, params, database_sets, query_sets, location_name,
+                                log=log, model_name=model_name, show_progress=show_progress,
+                                save_embeddings=save_embeddings, load_embeddings=load_embeddings)
+        stats[location_name] = temp
+        ave_one_percent_recall.append(temp['average']['ave_one_percent_recall'])
+        ave_recall.append(temp['average']['ave_recall'])
+        ave_mrr.append(temp['average']['ave_mrr'])
+        
+    # Compute average stats
+    stats['average'] = {'average': {'ave_one_percent_recall': np.mean(ave_one_percent_recall),
+                                    'ave_recall': np.mean(ave_recall, axis=0),
+                                    'ave_mrr': np.mean(ave_mrr)}}
+    return stats
+
+
+def evaluate_dataset(model, device, params: TrainingParams, database_sets, query_sets,
+                     location_name: str, log: bool = False, model_name: str = 'model',
+                     show_progress: bool = False, save_embeddings: bool = False,
+                     load_embeddings: bool = False):
+    # Run evaluation on a single dataset
+    recall = np.zeros(25)
+    stats = {}
+    count = 0
+    one_percent_recall = []
+    mrr = []
+
+    database_embeddings = []
+    query_embeddings = []
+
+    model.eval()
+
+    if show_progress:
+        logging.info(f'{"Loading" if load_embeddings else "Computing"} database embeddings')
+    for ii, data_set in enumerate(database_sets):
+        temp_embeddings = None
+        if len(data_set) > 0:
+            if load_embeddings:
+                temp_embeddings = load_embeddings_from_file(model_name, params.dataset_name, location_name, f'database_{ii}')
+            else:
+                temp_embeddings = get_latent_vectors(model, data_set, device, params, show_progress)
+            if save_embeddings:
+                save_embeddings_to_file(temp_embeddings, model_name, params.dataset_name, location_name, f'database_{ii}')
+        database_embeddings.append(temp_embeddings)
+
+    if show_progress:
+        logging.info(f'{"Loading" if load_embeddings else "Computing"} query embeddings')
+    for jj, data_set in enumerate(query_sets):
+        temp_embeddings = None
+        if len(data_set) > 0:
+            if load_embeddings:
+                temp_embeddings = load_embeddings_from_file(model_name, params.dataset_name, location_name, f'query_{jj}')
+            else:
+                temp_embeddings = get_latent_vectors(model, data_set, device, params, show_progress)
+            if save_embeddings:
+                save_embeddings_to_file(temp_embeddings, model_name, params.dataset_name, location_name, f'query_{jj}')
+        query_embeddings.append(temp_embeddings)
+
+    if show_progress:
+        logging.info('Running evaluation')
+    for i in range(len(database_sets)):
+        for j in range(len(query_sets)):
+            if (i == j and params.skip_same_run) or database_embeddings[i] is None or query_embeddings[j] is None:
+                continue
+            if 'CSCampus3D' in params.dataset_name:
+                # For Campus3D, we report on the aerial-only database, which is idx 1
+                if i != 1:
+                    continue
+                split_name = os.path.split(os.path.split(database_sets[i][0]['query'])[0])[0] + f'_idx{i}'
+            else:
+                split_name = os.path.split(os.path.split(query_sets[j][0]['query'])[0])[0]
+            pair_recall, pair_opr, pair_mrr = get_recall(i, j, database_embeddings,
+                                                         query_embeddings, query_sets,
+                                                         database_sets, log=log,
+                                                         model_name=model_name)
+            recall += np.array(pair_recall)
+            count += 1
+            one_percent_recall.append(pair_opr)
+            mrr.append(pair_mrr)
+            
+            # Report per-split metrics
+            stats[split_name] = {'ave_one_percent_recall': pair_opr,
+                                 'ave_recall': pair_recall,
+                                 'ave_mrr': pair_mrr}
+    ave_recall = recall / count
+    ave_one_percent_recall = np.mean(one_percent_recall)
+    ave_mrr = np.mean(mrr)
+    stats['average'] = {'ave_one_percent_recall': ave_one_percent_recall,
+                        'ave_recall': ave_recall,
+                        'ave_mrr': ave_mrr}
+    return stats
+
+
+def print_eval_stats(stats):
+    # Altered to expect per-split stats
+    msg = 'Eval Results'
+    for database_name in stats:
+        msg += '\nDataset: {}\n'.format(database_name)
+        for split in stats[database_name]:
+            msg += '    Split: {}\n'.format(split)
+            t = '    Avg. top 1% recall: {:.2f}   Avg. MRR: {:.2f}   Avg. recall @N:\n'
+            msg += t.format(
+                stats[database_name][split]["ave_one_percent_recall"],
+                stats[database_name][split]["ave_mrr"],
+            )
+            msg += '    ' + str(stats[database_name][split]['ave_recall']).replace('\n','\n    ')
+    logging.info(msg)
+
+
+def pnv_write_eval_stats(file_name, prefix, stats):
+    s = prefix
+    # ave_1p_recall_l = []
+    # ave_recall_l = []
+    # Print results on the final model
+    with open(file_name, "a") as f:
+        for ds in stats:
+            s += f"\n[{ds}]\n"
+            for split in stats[ds]:
+                s += f'    Split: [{split}]\n'
+                ave_1p_recall = stats[ds][split]['ave_one_percent_recall']
+                # ave_1p_recall_l.append(ave_1p_recall)
+                ave_recall = stats[ds][split]['ave_recall'][0]
+                # ave_recall_l.append(ave_recall)
+                ave_mrr = stats[ds][split]['ave_mrr']
+                s += '    AR@1%: {:0.2f}, AR@1: {:0.2f}, MRR: {:0.2f}, AR@N:\n'.format(ave_1p_recall, ave_recall, ave_mrr)
+                s += '    ' + str(stats[ds][split]['ave_recall']).replace('\n','\n    ')
+                s += '\n'
+
+        # NOTE: below is redundant as average is now stored in stats dict
+        # mean_1p_recall = np.mean(ave_1p_recall_l)
+        # mean_recall = np.mean(ave_recall_l)
+        # s += "\n\nMean AR@1%: {:0.2f}, Mean AR@1: {:0.2f}\n\n".format(mean_1p_recall, mean_recall)
+        s += "\n------------------------------------------------------------------------\n\n"
+        f.write(s)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Evaluate model on PointNetVLAD (Oxford) dataset')
+    parser.add_argument('--config', type=str, required=True, help='Path to configuration file')
+    parser.add_argument('--model_config', type=str, required=True, help='Path to the model-specific configuration file')
+    parser.add_argument('--weights', type=str, required=False, help='Trained model weights')
+    parser.add_argument('--debug', dest='debug', action='store_true')
+    parser.set_defaults(debug=False)
+    parser.add_argument('--visualize', dest='visualize', action='store_true')
+    parser.set_defaults(visualize=False)
+    parser.add_argument('--log', dest='log', action='store_true', help="Log false positives and top-5 retrievals")
+    parser.set_defaults(log=False)
+    parser.add_argument('--save_embeddings', action='store_true', help='Save embeddings to disk')
+    parser.add_argument('--load_embeddings', action='store_true',
+                        help=('Load embeddings from disk. Note this script will only check if '
+                              'weights paths match, not if the configs used match.'))
+
+    args = parser.parse_args()
+    print('Config path: {}'.format(args.config))
+    print('Model config path: {}'.format(args.model_config))
+    if args.weights is None:
+        w = 'RANDOM WEIGHTS'
+    else:
+        w = args.weights
+    print('Weights: {}'.format(w))
+    if args.save_embeddings and args.load_embeddings:
+        print('[WARNING] Both save_embeddings AND load_embeddings specified, which is redundant. '
+              'Will proceed without saving embeddings.')
+        args.save_embeddings = False
+    print(f'Save embeddings: {args.save_embeddings}')
+    print(f'Load embeddings: {args.load_embeddings}')
+    print('Debug mode: {}'.format(args.debug))
+    print('Log search results: {}'.format(args.log))
+    print('')
+
+    set_seed()  # Seed RNG
+
+    params = TrainingParams(args.config, args.model_config, debug=args.debug)
+    params.print()
+
+    if torch.cuda.is_available():
+        device = "cuda"
+    else:
+        device = "cpu"
+    print('Device: {}'.format(device))
+
+    model = model_factory(params)
+    if args.weights is not None:
+        assert os.path.exists(args.weights), 'Cannot open network weights: {}'.format(args.weights)
+        model_name = os.path.splitext(os.path.split(args.weights)[1])[0]
+        print('Loading weights: {}'.format(args.weights))
+        if os.path.splitext(args.weights)[1] == '.ckpt':
+            state = torch.load(args.weights)
+            model.load_state_dict(state['model_state_dict'])
+        else:  # .pt or .pth
+            model.load_state_dict(torch.load(args.weights, map_location=device))
+    else:
+        model_name = w
+
+    model.to(device)
+
+    logging_level = 'DEBUG' if params.debug else 'INFO'
+    create_logger(log_file=None, logging_level=logging_level)
+    
+    # Save results to the text file
+    model_params_name = os.path.split(params.model_params.model_params_path)[1]
+    config_name = os.path.split(params.params_path)[1]
+    prefix = "Model Params: {}, Config: {}, Model: {}".format(model_params_name, config_name, model_name)
+
+    stats = evaluate(model, device, params, args.log, model_name, show_progress=True,
+                     save_embeddings=args.save_embeddings,
+                     load_embeddings=args.load_embeddings)
+    print_eval_stats(stats)
+
+    pnv_write_eval_stats(f"pnv_{params.dataset_name}_split_results.txt", prefix, stats)
+
+
