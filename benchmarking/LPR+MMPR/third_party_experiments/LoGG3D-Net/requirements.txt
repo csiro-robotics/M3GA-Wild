@@ -1,7 +1,0 @@
-torch==2.1.1
-torchpack==0.3.1
-torchvision==0.16.0
-numpy==1.26.4
-open3d==0.18.1
-mpi4py==4.0.1
-torchsparse @ git+https://github.com/mit-han-lab/torchsparse.git@74099d10a51c71c14318bce63d6421f698b24f24

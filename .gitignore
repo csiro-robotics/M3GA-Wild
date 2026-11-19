@@ -35,3 +35,6 @@ train_outputs/
 eval_outputs*/
 
 *range_image_*debug*/
+
+.DS_store
+.idea

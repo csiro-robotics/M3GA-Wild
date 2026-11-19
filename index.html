@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="M3GA-Wild: A Large-Scale Dataset and Benchmark for Multi-Modal Multi-session Ground-to-Aerial Place Recognition in Forests.">
+    <meta name="keywords" content="M3GA-Wild, Place Recognition, Ground-to-Aerial, LiDAR, RGB, Forest, WACV 2027">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>M3GA-Wild</title>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/csiro.svg">
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title">M3GA-Wild: A Large-Scale Dataset and Benchmark for
+                            Multi-Modal Multi-session Ground-to-Aerial Place Recognition in Forests</h1>
+                        <h2 class="subtitle is-4">Accepted at WACV 2027</h2>
+                        <div class="is-size-5 publication-authors"><span class="author-block"><a
+                                    href="https://scholar.google.com/citations?user=a6BiSqoAAAAJ&hl=en">Ethan
+                                    Griffiths</a><sup>1,2</sup>&nbsp;&nbsp;</span><span class="author-block"><a
+                                    href="https://www.qut.edu.au/about/our-people/academic-profiles/maryam.haghighat">Maryam
+                                    Haghighat</a><sup>1</sup>&nbsp;&nbsp;</span><span class="author-block"><a
+                                    href="https://www.qut.edu.au/about/our-people/academic-profiles/s.denman">Simon
+                                    Denman</a><sup>1</sup>&nbsp;&nbsp;</span><span class="author-block"><a
+                                    href="https://www.qut.edu.au/about/our-people/academic-profiles/c.fookes">Clinton
+                                    Fookes</a><sup>1</sup>&nbsp;&nbsp;</span><span class="author-block"><a
+                                    href="https://scholar.google.com/citations?user=fn-lMpMAAAAJ&hl=en">Milad
+                                    Ramezani</a><sup>2</sup>&nbsp;&nbsp;</span></div>
+                        <div class="is-size-5 publication-authors"><span class="author-block"><sup>1</sup>Queensland
+                                University of Technology&nbsp;&nbsp;&nbsp;<sup>2</sup>CSIRO Robotics</span>
+                        </div>
+                        <div class="publication-links"><span class="link-block"><a
+                                    href="https://arxiv.org/abs/2609.23003"
+                                    class="external-link button is-normal is-rounded is-dark">
+                                    
+                        <span class="icon"><i
+                            class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+                        <span class="link-block"><a href="https://github.com/csiro-robotics/M3GA-Wild"
+                            class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
+                                            class="fab fa-github"></i></span><span>Code</span></a></span>
+                        <span class="link-block"><a href="https://csiro-robotics.github.io/M3GA-Wild"
+                            class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
+                                            class="fab fa-youtube"></i></span><span>Video</span></a></span>
+                        <span class="link-block"><a href="https://data.csiro.au/collection/79124"
+                            class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
+                                            class="fas fa-database"></i></span><span>Dataset</span></a></span>
+                        <span class="link-block"><a href="https://huggingface.co/EGriffiths-CSIRO/M3GA-Wild"
+                            class="external-link button is-normal is-rounded is-dark"><span>🤗
+                                        Checkpoints</span></a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="hero teaser">
+        <div class="container is-max-desktop">
+            <div class="hero-body"><img src="./static/images/teaser.webp"
+                    alt="M3GA-Wild overview: ground and aerial RGB, LiDAR and height maps, multi-session trajectories, and retrieval heatmaps.">
+                <h2 class="subtitle has-text-centered">M3GA-Wild provides synchronised ground RGB and LiDAR, aligned
+                    aerial RGB, low and high altitude aerial LiDAR, and height maps across four forests.
+                    Our experiments reveal severe performance gaps between LiDAR and image-based methods for
+                    ground-to-aerial place recognition.</h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>We present M3GA-Wild, the first benchmark for multi-modal, multi-session ground-to-aerial
+                            place recognition in forests. It unifies and extends existing forest localisation datasets,
+                            providing synchronised RGB imagery and LiDAR from ground traversals spanning 36 km, aligned
+                            high-resolution aerial imagery and multi-altitude LiDAR covering 370 hectares, and accurate
+                            geo-referenced 6-DoF poses across four forests in Brisbane, Australia. Baselines show that
+                            LiDAR-based approaches significantly outperform vision-only methods under severe viewpoint
+                            differences, while current multi-modal fusion strategies yield limited gains due to poor
+                            cross-modal alignment. Pairing aerial RGB with geo-referenced aerial LiDAR also lets us
+                            evaluate foundation models for monocular depth and canopy height estimation, revealing
+                            shortfalls of current methods.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Video</h2>
+                    <div class="publication-video">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&amp;showinfo=0"
+                            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Dataset</h2>
+                    <div class="content has-text-justified">
+                        <p>M3GA-Wild combines ground LiDAR and RGB from <a href="https://csiro-robotics.github.io/WildCross/">WildCross</a>
+                            with ground LiDAR and
+                            low altitude (LA) aerial LiDAR from <a href="https://csiro-robotics.github.io/HOTFormerLoc/">CS-Wild-Places</a>,
+                            across four eucalyptus forests near
+                            Brisbane, Australia. We add geo-referenced aerial RGB imagery (Nearmap, up to 7.5 cm GSD)
+                            aligned to the aerial LiDAR, a new high altitude (HA) LiDAR layer from public Queensland
+                            Government surveys, and derived height maps (ground LiDAR rasters and CHMv2 canopy heights
+                            predicted from aerial imagery). LA and HA LiDAR are captured 50&ndash;200 m and 800&ndash;2500 m above
+                            ground, respectively.</p>
+                        <h3 class="title is-4">Forests</h3>
+                        <div class="columns is-multiline">
+                            <div class="column is-half">
+                                <div class="box has-text-left">
+                                    <p class="title is-5">Karawatha</p>
+                                    <p><b>19.9 km ground, 1.80 km² aerial</b></p>
+                                    <p>Ground RGB + LiDAR; training and test regions.</p>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box has-text-left">
+                                    <p class="title is-5">Venman</p>
+                                    <p><b>12.7 km ground, 1.30 km² aerial</b></p>
+                                    <p>Ground RGB + LiDAR; training and test regions.</p>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box has-text-left">
+                                    <p class="title is-5">QCAT</p>
+                                    <p><b>0.9 km ground, 0.06 km² aerial</b></p>
+                                    <p>Ground LiDAR only (no ground RGB); unseen test forest.</p>
+                                </div>
+                            </div>
+                            <div class="column is-half">
+                                <div class="box has-text-left">
+                                    <p class="title is-5">Samford</p>
+                                    <p><b>2.6 km ground, 0.58 km² aerial</b></p>
+                                    <p>Ground LiDAR only (no ground RGB); unseen test forest;
+                                        aerial LA LiDAR from a RIEGL VUX-120 for higher
+                                        density.</p>
+                                </div>
+                            </div>
+                        </div><img src="./static/images/forests.webp"
+                            alt="Overview of the four forests with ground trajectories and test regions.">
+                        <h3 class="title is-4">Low vs. high altitude LiDAR</h3><img
+                            src="./static/images/lidar-la-ha.png"
+                            alt="Ground image, ground LiDAR, LA LiDAR and HA LiDAR submaps.">
+                        <p class="is-size-7">Poor beam penetration in dense canopy makes ground-to-aerial matching hard;
+                            HA LiDAR has the lowest below-canopy density.</p>
+                        <h3 class="title is-4">CHMv2 height map comparison</h3>
+                        <img src="./static/images/chmv2-kara-1.png" alt="CHMv2 Karawatha." style="clip-path: inset(0px 6px 14px 6px); display: block;">
+                        <img src="./static/images/chmv2-venman-1.png" alt="CHMv2 Venman." style="clip-path: inset(16px 6px 14px 6px); display: block;">
+                        <img src="./static/images/chmv2-qcat-1.png" alt="CHMv2 QCAT." style="clip-path: inset(16px 6px 14px 6px); display: block;">
+                        <img src="./static/images/chmv2-samford-1.png" alt="CHMv2 Samford." style="clip-path: inset(16px 6px 14px 6px); display: block;">
+                        <p class="is-size-7">From top-to-bottom: Karawatha, Venman, QCAT, Samford.
+                            CHMv2 captures coarse canopy structure but fails on sparse forests.</p>
+                        <h3 class="title is-4">Comparison with existing datasets</h3>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>Dataset</th>
+                                        <th>Year</th>
+                                        <th>RGB</th>
+                                        <th>LiDAR</th>
+                                        <th>Ground</th>
+                                        <th>LA</th>
+                                        <th>HA</th>
+                                        <th>Environment</th>
+                                        <th>Scale (Ground / Aerial)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>KITTI</td>
+                                        <td>2013</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Urban</td>
+                                        <td>44 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oxford RobotCar</td>
+                                        <td>2017</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Urban</td>
+                                        <td>1000 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BotanicGarden</td>
+                                        <td>2020</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Outdoor</td>
+                                        <td>17 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MulRan</td>
+                                        <td>2020</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Urban</td>
+                                        <td>123 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wild-Places</td>
+                                        <td>2023</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Forest</td>
+                                        <td>33 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MARS-LVIG</td>
+                                        <td>2024</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>Urban / Outdoor</td>
+                                        <td>1.2 km²</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SubT-MRS</td>
+                                        <td>2024</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Sub-T / Various</td>
+                                        <td>100 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oxford Forest PR</td>
+                                        <td>2024</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Forest</td>
+                                        <td>3.4 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WildCross</td>
+                                        <td>2026</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>Forest</td>
+                                        <td>33 km</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CS-Campus3D</td>
+                                        <td>2023</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>Urban / Campus</td>
+                                        <td>7.8 km / 5.5 km²</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GRACO</td>
+                                        <td>2023</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>Campus</td>
+                                        <td>3.0 km / 0.06 km²</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CS-Wild-Places</td>
+                                        <td>2025</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✗</td>
+                                        <td>Forest</td>
+                                        <td>36.1 km / 3.7 km²</td>
+                                    </tr>
+                                    <tr class="best">
+                                        <td><b>M3GA-Wild (Ours)</b></td>
+                                        <td>2026</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>Forest</td>
+                                        <td>36.1 km / 3.7 km²</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">LA / HA = low / high altitude aerial LiDAR.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Benchmark Tasks and Results</h2>
+                    <div class="content has-text-justified">
+                        <p>M3GA-Wild enables place recognition evaluation across diverse modality configurations.
+                            Ground samples are queries against the aerial database. We report mean Recall@1/5/10 (%),
+                            using LA LiDAR unless stated otherwise.</p>
+
+                        <div id="recall-plot" style="width:100%;height:780px;"></div>
+                        <p class="is-size-7 has-text-left">Recall@N of the best method per task on each forest. All
+                            results use low altitude LiDAR. VPR and MMPR methods need ground RGB, so they are only 
+                            reported on Karawatha and Venman.  Adding a DINOv2 image encoder to MinkLoc3Dv2 via simple concat
+                            fusion (MinkLoc++v2) is on par or better on Karawatha, but is <b>worse</b>
+                            than LiDAR-only MinkLoc3Dv2 at every N on Venman. CMPR uses a ResNet50 image encoder on
+                            Karawatha and Venman, and DINOv2 on QCAT and Samford; hover to see it. Click legend to toggle lines.
+                        </p>
+
+                        <!-- Recall@N Plot -->
+                        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                        var el = document.getElementById('recall-plot');
+                        if (!el || !window.Plotly) return;
+
+                        var N = [1, 5, 10];
+                        var forests = ['Karawatha', 'Venman', 'QCAT', 'Samford'];
+                        // [name, [per-forest [R1,R5,R10] in the order above; omit forests without results], colour, dash, marker symbol, optional per-forest encoder shown on hover]
+                        var series = [
+                            ['LPR: HOTFLoc++ (w/ MSGV)', [[78.3, 84.2, 86.1], [86.6, 87.8, 88.1], [91.3, 95.1, 95.7], [95.8, 97.7, 98.3]], '#08306b', 'solid', 'circle'],
+                            ['LPR: HOTFLoc++',           [[63.2, 75.9, 81.9], [56.3, 72.4, 80.6], [61.1, 83.5, 90.9], [88.8, 95.5, 97.1]], '#2171b5', 'solid', 'circle'],
+                            ['LPR: MinkLoc3Dv2',         [[46.2, 63.0, 70.1], [63.6, 82.7, 90.5], [49.5, 73.0, 83.8], [34.4, 53.1, 61.2]], '#6baed6', 'dash',  'circle'],
+                            ['MMPR: MinkLoc++v2 (DINOv2)', [[46.7, 68.6, 77.1], [48.9, 76.8, 86.8]], '#f28e2b', 'solid', 'diamond'],
+                            ['CMPR: Lip-Loc, LiDAR \u2192 RGB',      [[2.29, 5.23, 6.96], [4.12, 10.15, 14.12], [22.92, 43.43, 59.12], [1.72, 4.10, 6.40]], '#1b7837', 'solid', 'square', ['ResNet50', 'ResNet50', 'DINOv2', 'DINOv2']],
+                            ['CMPR: Lip-Loc, Range img \u2192 RGB',  [[1.06, 4.05, 7.05], [5.17, 10.66, 14.75], [14.45, 36.26, 50.19], [0.90, 1.95, 3.22]], '#35978f', 'solid', 'square', ['ResNet50', 'ResNet50', 'DINOv2', 'DINOv2']],
+                            ['CMPR: Lip-Loc, Height map \u2192 RGB', [[1.68, 5.29, 9.42], [2.66, 8.95, 13.16], [14.06, 27.35, 39.10], [0.07, 0.97, 3.97]], '#5ab4ac', 'solid', 'square', ['ResNet50', 'ResNet50', 'DINOv2', 'DINOv2']],
+                            ['CMPR: Lip-Loc, Height map \u2192 CHMv2', [[0.50, 1.76, 3.46], [0.24, 0.73, 1.22], [12.65, 31.74, 43.61], [0.30, 2.92, 4.87]], '#a1d99b', 'solid', 'square', ['ResNet50', 'ResNet50', 'DINOv2', 'DINOv2']],
+                            ['VPR: AnyLoc (zero-shot)',  [[2.11, 4.43, 6.10], [0.72, 2.51, 4.52]], '#d62728', 'solid', 'x'],
+                            ['VPR: BoQ (fine-tuned)',    [[3.37, 4.70, 5.80], [0.09, 0.47, 1.39]], '#ff7f7f', 'dash',  'x']
+                        ];
+
+                        var traces = [];
+                        series.forEach(function (s) {
+                            s[1].forEach(function (vals, f) {
+                            var id = f ? String(f + 1) : '';
+                            traces.push({
+                                x: N, y: vals, name: s[0], legendgroup: s[0], showlegend: f === 0,
+                                xaxis: 'x' + id, yaxis: 'y' + id, meta: forests[f] + (s[5] && s[5][f] ? ' \u00b7 ' + s[5][f] : ''),
+                                type: 'scatter', mode: 'lines+markers',
+                                line: {color: s[2], width: 3, dash: s[3]},
+                                marker: {color: s[2], size: 8, symbol: s[4]},
+                                hovertemplate: '%{meta}<br>%{fullData.name}<br>Recall@%{x}: %{y:.2f}%<extra></extra>'
+                            });
+                            });
+                        });
+
+                        // 2x2 grid: columns split the width, rows split the height (row 0 = top)
+                        var dx = [[0, 0.46], [0.54, 1]];
+                        var dy = [[0.56, 1], [0, 0.44]];
+                        var layout = {
+                            title: {text: 'Recall@N by Modality on M3GA-Wild', x: 0.5, y: 0.99, yanchor: 'top'},
+                            legend: {orientation: 'h', x: 0, y: -0.22, yanchor: 'top', font: {size: 11}},
+                            margin: {l: 60, r: 20, t: 90, b: 210},
+                            paper_bgcolor: 'white',
+                            plot_bgcolor: 'white',
+                            showlegend: true,
+                            annotations: []
+                        };
+                        forests.forEach(function (name, f) {
+                            var r = Math.floor(f / 2), c = f % 2, id = f ? String(f + 1) : '';
+                            layout['xaxis' + id] = {domain: dx[c], anchor: 'y' + id, tickmode: 'array', tickvals: N,
+                                                    range: [0.5, 10.5], title: r ? 'N (number of candidates)' : ''};
+                            layout['yaxis' + id] = {domain: dy[r], anchor: 'x' + id, range: [0, 100], title: c ? '' : 'Recall@N (%)'};
+                            layout.annotations.push({text: '<b>' + name + '</b>', xref: 'paper', yref: 'paper',
+                                                    x: (dx[c][0] + dx[c][1]) / 2, y: dy[r][1], xanchor: 'center', yanchor: 'bottom',
+                                                    showarrow: false, font: {size: 14}});
+                        });
+
+                        Plotly.newPlot(el, traces, layout, {responsive: true, displayModeBar: false});
+                        });
+                        </script>
+
+                        <h3 class="title is-4">LiDAR Place Recognition (LPR)</h3>
+                        <p>Accurate LiDAR geometry stays robust despite the severe domain gap, and transformer-based
+                            hierarchical encoders generalise best. HA LiDAR outperforms LA for most methods, providing
+                            a cheap and scalable alternative to costly and time-consuming drone-based LA LiDAR scans.</p>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Re-ranker</th>
+                                        <th>LA R@1</th>
+                                        <th>LA R@5</th>
+                                        <th>LA R@10</th>
+                                        <th>HA R@1</th>
+                                        <th>HA R@5</th>
+                                        <th>HA R@10</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MinkLoc3Dv2</td>
+                                        <td>&ndash;</td>
+                                        <td>48.5</td>
+                                        <td>67.9</td>
+                                        <td>76.4</td>
+                                        <td>61.3</td>
+                                        <td>76.1</td>
+                                        <td>81.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EgoNN</td>
+                                        <td>&ndash;</td>
+                                        <td>48.3</td>
+                                        <td>71.4</td>
+                                        <td>80.6</td>
+                                        <td>66.5</td>
+                                        <td>81.1</td>
+                                        <td>85.8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>LoGG3D-Net</td>
+                                        <td>&ndash;</td>
+                                        <td>21.9</td>
+                                        <td>35.7</td>
+                                        <td>42.5</td>
+                                        <td>29.0</td>
+                                        <td>46.3</td>
+                                        <td>54.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CrossLoc3D</td>
+                                        <td>&ndash;</td>
+                                        <td>10.0</td>
+                                        <td>24.4</td>
+                                        <td>34.2</td>
+                                        <td>&ndash;</td>
+                                        <td>&ndash;</td>
+                                        <td>&ndash;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HOTFormerLoc</td>
+                                        <td>&ndash;</td>
+                                        <td>59.4</td>
+                                        <td>75.4</td>
+                                        <td>82.8</td>
+                                        <td>64.9</td>
+                                        <td>78.4</td>
+                                        <td>83.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HOTFLoc++</td>
+                                        <td>&ndash;</td>
+                                        <td>67.4</td>
+                                        <td>81.8</td>
+                                        <td>87.6</td>
+                                        <td>71.2</td>
+                                        <td>84.4</td>
+                                        <td>88.9</td>
+                                    </tr>
+                                    <tr>
+                                        <td>EgoNN</td>
+                                        <td>SGV</td>
+                                        <td>69.7</td>
+                                        <td>80.4</td>
+                                        <td>84.3</td>
+                                        <td>76.6</td>
+                                        <td>85.8</td>
+                                        <td>88.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>LoGG3D-Net</td>
+                                        <td>SGV</td>
+                                        <td>43.2</td>
+                                        <td>46.5</td>
+                                        <td>48.1</td>
+                                        <td>58.8</td>
+                                        <td>60.5</td>
+                                        <td>61.5</td>
+                                    </tr>
+                                    <tr class="best">
+                                        <td>HOTFLoc++</td>
+                                        <td>MSGV</td>
+                                        <td>88.0</td>
+                                        <td>91.2</td>
+                                        <td>92.0</td>
+                                        <td>88.4</td>
+                                        <td>90.9</td>
+                                        <td>91.9</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">Average over Karawatha, Venman, QCAT and Samford. Models
+                            trained on low altitude (LA) or high altitude (HA) LiDAR.</p>
+                        <h3 class="title is-4">Visual Place Recognition (VPR)</h3>
+                        <p>Even modern VPR methods and foundation-model features fail on ground-to-aerial retrieval, and
+                            fine-tuning gives only marginal gains.</p>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>Setting</th>
+                                        <th>Method</th>
+                                        <th>R@1</th>
+                                        <th>R@5</th>
+                                        <th>R@10</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Zero-shot</td>
+                                        <td>NetVLAD</td>
+                                        <td>0.33</td>
+                                        <td>1.12</td>
+                                        <td>2.09</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zero-shot</td>
+                                        <td>MixVPR</td>
+                                        <td>0.37</td>
+                                        <td>1.21</td>
+                                        <td>2.18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zero-shot</td>
+                                        <td>SALAD</td>
+                                        <td>0.40</td>
+                                        <td>1.18</td>
+                                        <td>2.17</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zero-shot</td>
+                                        <td>BoQ</td>
+                                        <td>0.50</td>
+                                        <td>1.51</td>
+                                        <td>2.32</td>
+                                    </tr>
+                                    <tr class="best">
+                                        <td>Zero-shot</td>
+                                        <td>AnyLoc</td>
+                                        <td>1.41</td>
+                                        <td>3.47</td>
+                                        <td>5.31</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zero-shot</td>
+                                        <td>AnyLoc†</td>
+                                        <td>0.43</td>
+                                        <td>2.07</td>
+                                        <td>3.88</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fine-tuned</td>
+                                        <td>NetVLAD</td>
+                                        <td>0.34</td>
+                                        <td>1.11</td>
+                                        <td>1.84</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fine-tuned</td>
+                                        <td>MixVPR</td>
+                                        <td>0.28</td>
+                                        <td>0.93</td>
+                                        <td>1.76</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fine-tuned</td>
+                                        <td>SALAD</td>
+                                        <td>0.63</td>
+                                        <td>1.91</td>
+                                        <td>3.66</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fine-tuned</td>
+                                        <td>BoQ</td>
+                                        <td>1.73</td>
+                                        <td>2.58</td>
+                                        <td>3.59</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman. † = “unstructured” AnyLoc
+                            domain.</p>
+                        <h3 class="title is-4">Cross-Modal Place Recognition (CMPR)</h3>
+                        <p>3D geometry is the most reliable cue, but the best Lip-Loc configuration remains below
+                            10% R@1. CHMv2 height maps do not yet replace true 3D geometry.</p>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>Image encoder</th>
+                                        <th>Ground Modality</th>
+                                        <th>Aerial Modality</th>
+                                        <th>R@1</th>
+                                        <th>R@5</th>
+                                        <th>R@10</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ResNet50</td>
+                                        <td>Range Image</td>
+                                        <td>RGB</td>
+                                        <td>1.92</td>
+                                        <td>5.96</td>
+                                        <td>9.80</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv2</td>
+                                        <td>Range Image</td>
+                                        <td>RGB</td>
+                                        <td>4.55</td>
+                                        <td>11.35</td>
+                                        <td>16.28</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv3</td>
+                                        <td>Range Image</td>
+                                        <td>RGB</td>
+                                        <td>3.65</td>
+                                        <td>8.54</td>
+                                        <td>13.04</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet50</td>
+                                        <td>Height Map</td>
+                                        <td>RGB</td>
+                                        <td>2.39</td>
+                                        <td>7.86</td>
+                                        <td>12.82</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv2</td>
+                                        <td>Height Map</td>
+                                        <td>RGB</td>
+                                        <td>3.95</td>
+                                        <td>8.59</td>
+                                        <td>13.17</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv3</td>
+                                        <td>Height Map</td>
+                                        <td>RGB</td>
+                                        <td>2.82</td>
+                                        <td>7.63</td>
+                                        <td>13.27</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet50</td>
+                                        <td>Height Map</td>
+                                        <td>CHMv2</td>
+                                        <td>3.42</td>
+                                        <td>11.33</td>
+                                        <td>15.94</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv2</td>
+                                        <td>Height Map</td>
+                                        <td>CHMv2</td>
+                                        <td>3.31</td>
+                                        <td>9.15</td>
+                                        <td>13.09</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv3</td>
+                                        <td>Height Map</td>
+                                        <td>CHMv2</td>
+                                        <td>5.03</td>
+                                        <td>12.61</td>
+                                        <td>16.79</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ResNet50</td>
+                                        <td>LiDAR</td>
+                                        <td>RGB</td>
+                                        <td>4.66</td>
+                                        <td>12.58</td>
+                                        <td>18.65</td>
+                                    </tr>
+                                    <tr class="best">
+                                        <td>DINOv2</td>
+                                        <td>LiDAR</td>
+                                        <td>RGB</td>
+                                        <td>7.27</td>
+                                        <td>14.90</td>
+                                        <td>21.03</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DINOv3</td>
+                                        <td>LiDAR</td>
+                                        <td>RGB</td>
+                                        <td>4.60</td>
+                                        <td>12.38</td>
+                                        <td>17.82</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">Lip-Loc, average over all four forests. The LiDAR rows use a
+                            HOTFormerLoc LiDAR encoder.</p>
+                        <h3 class="title is-4">Multi-Modal Place Recognition (MMPR)</h3>
+                        <p>Fusing RGB and LiDAR improves over image-only retrieval, but LiDAR-only methods remain
+                            stronger, so current fusion is not adaptive enough to exploit RGB when it helps and ignore
+                            it when it distracts.</p>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>R@1</th>
+                                        <th>R@5</th>
+                                        <th>R@10</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MinkLoc++ (ResNet18)</td>
+                                        <td>29.2</td>
+                                        <td>49.7</td>
+                                        <td>60.7</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MinkLoc++v2 (ResNet50)</td>
+                                        <td>43.0</td>
+                                        <td>65.2</td>
+                                        <td>74.2</td>
+                                    </tr>
+                                    <tr class="best">
+                                        <td>MinkLoc++v2 (DINOv2)</td>
+                                        <td>47.8</td>
+                                        <td>72.7</td>
+                                        <td>81.9</td>
+                                    </tr>
+                                    <tr>
+                                        <td>UMF (ResNet50)</td>
+                                        <td>18.8</td>
+                                        <td>36.3</td>
+                                        <td>46.6</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-3">Related Links</h2>
+                    <div class="content has-text-justified">
+                        <p><a href="https://arxiv.org/abs/2609.23003">M3GA-Wild paper</a> · <a
+                                href="https://github.com/csiro-robotics/M3GA-Wild">GitHub repository</a> (code,
+                            benchmarks, data loaders) · <a href="https://data.csiro.au/collection/79124">Dataset
+                                download</a> (CSIRO Data Access Portal) · <a
+                                href="https://huggingface.co/EGriffiths-CSIRO/M3GA-Wild">Hugging Face checkpoints</a> ·
+                            <a href="https://csiro-robotics.github.io/WildCross/">WildCross</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre><code>@inproceedings{GriffithsM3GAWild2027,
+  title     = {{M3GA-Wild}: A Large-Scale Dataset and Benchmark for Multi-Modal Multi-session Ground-to-Aerial Place Recognition in Forests},
+  author    = {Griffiths, Ethan and Haghighat, Maryam and Denman, Simon and Fookes, Clinton and Ramezani, Milad},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  pages     = {},
+  year      = {2027},
+}</code></pre>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>We acknowledge Nearmap for aerial imagery and the Queensland Government for airborne LiDAR. Website
+                    template adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed
+                    under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+                        Attribution-ShareAlike 4.0 International License</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
