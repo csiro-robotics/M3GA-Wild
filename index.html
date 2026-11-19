@@ -69,7 +69,7 @@
                     alt="M3GA-Wild overview: ground and aerial RGB, LiDAR and height maps, multi-session trajectories, and retrieval heatmaps.">
                 <h2 class="subtitle has-text-centered">M3GA-Wild provides synchronised ground RGB and LiDAR, aligned
                     aerial RGB, low and high altitude aerial LiDAR, and height maps across four forests.
-                    Our experiments reveal severe performance gaps between LiDAR and image-based methods for
+                    Our experiments reveal severe modality gaps between LiDAR and image-based methods for
                     ground-to-aerial place recognition.</h2>
             </div>
         </div>
@@ -345,6 +345,7 @@
                 <div class="column is-four-fifths">
                     <h2 class="title is-3">Benchmark Tasks and Results</h2>
                     <div class="content has-text-justified">
+                        <h3 class="title is-4">Place Recognition Across Modalities</h3>
                         <p>M3GA-Wild enables place recognition evaluation across diverse modality configurations.
                             Ground samples are queries against the aerial database. We report mean Recall@1/5/10 (%),
                             using LA LiDAR unless stated otherwise.</p>
@@ -786,6 +787,25 @@
                             </table>
                         </div>
                         <p class="is-size-7 has-text-left">Average over Karawatha and Venman.</p>
+
+                        <h3 class="title is-4">Towards Large-Scale Pre-training with High Altitude LiDAR</h3>
+                        <p>Beyond benchmarking, the high altitude (HA) LiDAR layer of M3GA-Wild points to a scalable source of 3D
+                            supervision. HA LiDAR covers large areas in a single flight and is publicly available for large regions
+                            (ours comes from Queensland Government surveys), so it is far cheaper to acquire than drone-based LA LiDAR.
+                            Despite its lower point density and canopy penetration, it gave better LPR results than LA LiDAR for most
+                            methods. Every HA submap is also paired with geo-referenced aerial RGB, so aligned image&ndash;geometry
+                            data can be gathered at scale without any ground survey.</p>
+                        <p>We see two directions this could enable, both still open:</p>
+                        <ul>
+                            <li><b>3D-aware visual place recognition.</b> Multi-modal training already extracts better image
+                                representations than any of our VPR baselines (the image branch of MinkLoc++v2 reaches nearly 3&times;
+                                the Recall@N of AnyLoc in the paper), suggesting that geometry from aerial LiDAR can ground VPR training
+                                with constraints RGB alone cannot provide.</li>
+                            <li><b>Fine-tuning depth and canopy-height foundation models.</b> Models such as CHMv2 struggle to recover
+                                fine-grained height from high-resolution aerial orthophotos. Paired aerial RGB and HA LiDAR could be
+                                used to adapt them to aerial views, giving a cheap source of pseudo-3D data for cross-modal place
+                                recognition.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
