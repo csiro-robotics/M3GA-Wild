@@ -83,7 +83,7 @@
                         <p>We present M3GA-Wild, the first benchmark for multi-modal, multi-session ground-to-aerial
                             place recognition in forests. It unifies and extends existing forest localisation datasets,
                             providing synchronised RGB imagery and LiDAR from ground traversals spanning 36 km, aligned
-                            high-resolution aerial imagery and multi-altitude LiDAR covering 370 hectares, and accurate
+                            high-resolution aerial imagery and multi-altitude LiDAR covering 3.7 km², and accurate
                             geo-referenced 6-DoF poses across four forests in Brisbane, Australia. Baselines show that
                             LiDAR-based approaches significantly outperform vision-only methods under severe viewpoint
                             differences, while current multi-modal fusion strategies yield limited gains due to poor
@@ -433,320 +433,73 @@
                         <div class="table-container">
                             <table class="table is-striped is-narrow is-hoverable">
                                 <thead>
-                                    <tr>
-                                        <th>Method</th>
-                                        <th>Re-ranker</th>
-                                        <th>LA R@1</th>
-                                        <th>LA R@5</th>
-                                        <th>LA R@10</th>
-                                        <th>HA R@1</th>
-                                        <th>HA R@5</th>
-                                        <th>HA R@10</th>
-                                    </tr>
+                                    <tr><th>Method</th><th>Re-ranker</th><th>LA R@1</th><th>LA R@5</th><th>LA R@10</th><th>HA R@1</th><th>HA R@5</th><th>HA R@10</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>MinkLoc3Dv2</td>
-                                        <td>&ndash;</td>
-                                        <td>48.5</td>
-                                        <td>67.9</td>
-                                        <td>76.4</td>
-                                        <td>61.3</td>
-                                        <td>76.1</td>
-                                        <td>81.1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EgoNN</td>
-                                        <td>&ndash;</td>
-                                        <td>48.3</td>
-                                        <td>71.4</td>
-                                        <td>80.6</td>
-                                        <td>66.5</td>
-                                        <td>81.1</td>
-                                        <td>85.8</td>
-                                    </tr>
-                                    <tr>
-                                        <td>LoGG3D-Net</td>
-                                        <td>&ndash;</td>
-                                        <td>21.9</td>
-                                        <td>35.7</td>
-                                        <td>42.5</td>
-                                        <td>29.0</td>
-                                        <td>46.3</td>
-                                        <td>54.3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>CrossLoc3D</td>
-                                        <td>&ndash;</td>
-                                        <td>10.0</td>
-                                        <td>24.4</td>
-                                        <td>34.2</td>
-                                        <td>&ndash;</td>
-                                        <td>&ndash;</td>
-                                        <td>&ndash;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>HOTFormerLoc</td>
-                                        <td>&ndash;</td>
-                                        <td>59.4</td>
-                                        <td>75.4</td>
-                                        <td>82.8</td>
-                                        <td>64.9</td>
-                                        <td>78.4</td>
-                                        <td>83.0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>HOTFLoc++</td>
-                                        <td>&ndash;</td>
-                                        <td>67.4</td>
-                                        <td>81.8</td>
-                                        <td>87.6</td>
-                                        <td>71.2</td>
-                                        <td>84.4</td>
-                                        <td>88.9</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EgoNN</td>
-                                        <td>SGV</td>
-                                        <td>69.7</td>
-                                        <td>80.4</td>
-                                        <td>84.3</td>
-                                        <td>76.6</td>
-                                        <td>85.8</td>
-                                        <td>88.3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>LoGG3D-Net</td>
-                                        <td>SGV</td>
-                                        <td>43.2</td>
-                                        <td>46.5</td>
-                                        <td>48.1</td>
-                                        <td>58.8</td>
-                                        <td>60.5</td>
-                                        <td>61.5</td>
-                                    </tr>
-                                    <tr class="best">
-                                        <td>HOTFLoc++</td>
-                                        <td>MSGV</td>
-                                        <td>88.0</td>
-                                        <td>91.2</td>
-                                        <td>92.0</td>
-                                        <td>88.4</td>
-                                        <td>90.9</td>
-                                        <td>91.9</td>
-                                    </tr>
+                                    <tr><td>MinkLoc3Dv2</td><td>&ndash;</td><td>48.5</td><td>67.9</td><td>76.4</td><td>61.3</td><td>76.1</td><td>81.1</td></tr>
+                                    <tr><td>EgoNN</td><td>&ndash;</td><td>48.3</td><td>71.4</td><td>80.6</td><td>66.5</td><td>81.1</td><td>85.8</td></tr>
+                                    <tr><td>LoGG3D-Net</td><td>&ndash;</td><td>21.9</td><td>35.7</td><td>42.5</td><td>29.0</td><td>46.3</td><td>54.3</td></tr>
+                                    <tr><td>CrossLoc3D</td><td>&ndash;</td><td>10.0</td><td>24.4</td><td>34.2</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+                                    <tr><td>HOTFormerLoc</td><td>&ndash;</td><td>59.4</td><td>75.4</td><td>82.8</td><td>64.9</td><td>78.4</td><td>83.0</td></tr>
+                                    <tr><td>HOTFLoc++</td><td>&ndash;</td><td><b>67.4</b></td><td><b>81.8</b></td><td><b>87.6</b></td><td><b>71.2</b></td><td><b>84.4</b></td><td><b>88.9</b></td></tr>
+                                    <tr class="row-sep"><td>EgoNN</td><td>SGV</td><td>69.7</td><td>80.4</td><td>84.3</td><td>76.6</td><td>85.8</td><td>88.3</td></tr>
+                                    <tr><td>LoGG3D-Net</td><td>SGV</td><td>43.2</td><td>46.5</td><td>48.1</td><td>58.8</td><td>60.5</td><td>61.5</td></tr>
+                                    <tr><td>HOTFLoc++</td><td>MSGV</td><td><b>88.0</b></td><td><b>91.2</b></td><td><b>92.0</b></td><td><b>88.4</b></td><td><b>90.9</b></td><td><b>91.9</b></td></tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="is-size-7 has-text-left">Average over Karawatha, Venman, QCAT and Samford. Models
-                            trained on low altitude (LA) or high altitude (HA) LiDAR.</p>
+                        <p class="is-size-7 has-text-left">Average over Karawatha, Venman, QCAT and Samford. Models trained on low altitude (LA) or high altitude (HA) LiDAR. Bold marks the best result per column among methods without and with re-ranking.</p>
+
                         <h3 class="title is-4">Visual Place Recognition (VPR)</h3>
                         <p>Even modern VPR methods and foundation-model features fail on ground-to-aerial retrieval, and
                             fine-tuning gives only marginal gains.</p>
                         <div class="table-container">
                             <table class="table is-striped is-narrow is-hoverable">
                                 <thead>
-                                    <tr>
-                                        <th>Setting</th>
-                                        <th>Method</th>
-                                        <th>R@1</th>
-                                        <th>R@5</th>
-                                        <th>R@10</th>
-                                    </tr>
+                                    <tr><th>Setting</th><th>Method</th><th>R@1</th><th>R@5</th><th>R@10</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Zero-shot</td>
-                                        <td>NetVLAD</td>
-                                        <td>0.33</td>
-                                        <td>1.12</td>
-                                        <td>2.09</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zero-shot</td>
-                                        <td>MixVPR</td>
-                                        <td>0.37</td>
-                                        <td>1.21</td>
-                                        <td>2.18</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zero-shot</td>
-                                        <td>SALAD</td>
-                                        <td>0.40</td>
-                                        <td>1.18</td>
-                                        <td>2.17</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zero-shot</td>
-                                        <td>BoQ</td>
-                                        <td>0.50</td>
-                                        <td>1.51</td>
-                                        <td>2.32</td>
-                                    </tr>
-                                    <tr class="best">
-                                        <td>Zero-shot</td>
-                                        <td>AnyLoc</td>
-                                        <td>1.41</td>
-                                        <td>3.47</td>
-                                        <td>5.31</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zero-shot</td>
-                                        <td>AnyLoc†</td>
-                                        <td>0.43</td>
-                                        <td>2.07</td>
-                                        <td>3.88</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fine-tuned</td>
-                                        <td>NetVLAD</td>
-                                        <td>0.34</td>
-                                        <td>1.11</td>
-                                        <td>1.84</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fine-tuned</td>
-                                        <td>MixVPR</td>
-                                        <td>0.28</td>
-                                        <td>0.93</td>
-                                        <td>1.76</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fine-tuned</td>
-                                        <td>SALAD</td>
-                                        <td>0.63</td>
-                                        <td>1.91</td>
-                                        <td>3.66</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fine-tuned</td>
-                                        <td>BoQ</td>
-                                        <td>1.73</td>
-                                        <td>2.58</td>
-                                        <td>3.59</td>
-                                    </tr>
+                                    <tr><td>Zero-shot</td><td>NetVLAD</td><td>0.33</td><td>1.12</td><td>2.09</td></tr>
+                                    <tr><td>Zero-shot</td><td>MixVPR</td><td>0.37</td><td>1.21</td><td>2.18</td></tr>
+                                    <tr><td>Zero-shot</td><td>SALAD</td><td>0.40</td><td>1.18</td><td>2.17</td></tr>
+                                    <tr><td>Zero-shot</td><td>BoQ</td><td>0.50</td><td>1.51</td><td>2.32</td></tr>
+                                    <tr><td>Zero-shot</td><td>AnyLoc</td><td><b>1.41</b></td><td><b>3.47</b></td><td><b>5.31</b></td></tr>
+                                    <tr><td>Zero-shot</td><td>AnyLoc†</td><td>0.43</td><td>2.07</td><td>3.88</td></tr>
+                                    <tr class="row-sep"><td>Fine-tuned</td><td>NetVLAD</td><td>0.34</td><td>1.11</td><td>1.84</td></tr>
+                                    <tr><td>Fine-tuned</td><td>MixVPR</td><td>0.28</td><td>0.93</td><td>1.76</td></tr>
+                                    <tr><td>Fine-tuned</td><td>SALAD</td><td>0.63</td><td>1.91</td><td><b>3.66</b></td></tr>
+                                    <tr><td>Fine-tuned</td><td>BoQ</td><td><b>1.73</b></td><td><b>2.58</b></td><td>3.59</td></tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman. † = “unstructured” AnyLoc
-                            domain.</p>
+                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman. † = “unstructured” AnyLoc domain. Bold marks the best result per column within each setting.</p>
+
                         <h3 class="title is-4">Cross-Modal Place Recognition (CMPR)</h3>
                         <p>3D geometry is the most reliable cue, but the best Lip-Loc configuration remains below
                             10% R@1. CHMv2 height maps do not yet replace true 3D geometry.</p>
                         <div class="table-container">
                             <table class="table is-striped is-narrow is-hoverable">
                                 <thead>
-                                    <tr>
-                                        <th>Image encoder</th>
-                                        <th>Ground Modality</th>
-                                        <th>Aerial Modality</th>
-                                        <th>R@1</th>
-                                        <th>R@5</th>
-                                        <th>R@10</th>
-                                    </tr>
+                                    <tr><th>Image encoder</th><th>Ground Modality</th><th>Aerial Modality</th><th>R@1</th><th>R@5</th><th>R@10</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>ResNet50</td>
-                                        <td>Range Image</td>
-                                        <td>RGB</td>
-                                        <td>1.92</td>
-                                        <td>5.96</td>
-                                        <td>9.80</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv2</td>
-                                        <td>Range Image</td>
-                                        <td>RGB</td>
-                                        <td>4.55</td>
-                                        <td>11.35</td>
-                                        <td>16.28</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv3</td>
-                                        <td>Range Image</td>
-                                        <td>RGB</td>
-                                        <td>3.65</td>
-                                        <td>8.54</td>
-                                        <td>13.04</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ResNet50</td>
-                                        <td>Height Map</td>
-                                        <td>RGB</td>
-                                        <td>2.39</td>
-                                        <td>7.86</td>
-                                        <td>12.82</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv2</td>
-                                        <td>Height Map</td>
-                                        <td>RGB</td>
-                                        <td>3.95</td>
-                                        <td>8.59</td>
-                                        <td>13.17</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv3</td>
-                                        <td>Height Map</td>
-                                        <td>RGB</td>
-                                        <td>2.82</td>
-                                        <td>7.63</td>
-                                        <td>13.27</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ResNet50</td>
-                                        <td>Height Map</td>
-                                        <td>CHMv2</td>
-                                        <td>3.42</td>
-                                        <td>11.33</td>
-                                        <td>15.94</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv2</td>
-                                        <td>Height Map</td>
-                                        <td>CHMv2</td>
-                                        <td>3.31</td>
-                                        <td>9.15</td>
-                                        <td>13.09</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv3</td>
-                                        <td>Height Map</td>
-                                        <td>CHMv2</td>
-                                        <td>5.03</td>
-                                        <td>12.61</td>
-                                        <td>16.79</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ResNet50</td>
-                                        <td>LiDAR</td>
-                                        <td>RGB</td>
-                                        <td>4.66</td>
-                                        <td>12.58</td>
-                                        <td>18.65</td>
-                                    </tr>
-                                    <tr class="best">
-                                        <td>DINOv2</td>
-                                        <td>LiDAR</td>
-                                        <td>RGB</td>
-                                        <td>7.27</td>
-                                        <td>14.90</td>
-                                        <td>21.03</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DINOv3</td>
-                                        <td>LiDAR</td>
-                                        <td>RGB</td>
-                                        <td>4.60</td>
-                                        <td>12.38</td>
-                                        <td>17.82</td>
-                                    </tr>
+                                    <tr><td>ResNet50</td><td>Range Image</td><td>RGB</td><td>1.92</td><td>5.96</td><td>9.80</td></tr>
+                                    <tr><td>DINOv2</td><td>Range Image</td><td>RGB</td><td><b>4.55</b></td><td><b>11.35</b></td><td><b>16.28</b></td></tr>
+                                    <tr><td>DINOv3</td><td>Range Image</td><td>RGB</td><td>3.65</td><td>8.54</td><td>13.04</td></tr>
+                                    <tr class="row-sep"><td>ResNet50</td><td>Height Map</td><td>RGB</td><td>2.39</td><td>7.86</td><td>12.82</td></tr>
+                                    <tr><td>DINOv2</td><td>Height Map</td><td>RGB</td><td><b>3.95</b></td><td><b>8.59</b></td><td>13.17</td></tr>
+                                    <tr><td>DINOv3</td><td>Height Map</td><td>RGB</td><td>2.82</td><td>7.63</td><td><b>13.27</b></td></tr>
+                                    <tr class="row-sep"><td>ResNet50</td><td>Height Map</td><td>CHMv2</td><td>3.42</td><td>11.33</td><td>15.94</td></tr>
+                                    <tr><td>DINOv2</td><td>Height Map</td><td>CHMv2</td><td>3.31</td><td>9.15</td><td>13.09</td></tr>
+                                    <tr><td>DINOv3</td><td>Height Map</td><td>CHMv2</td><td><b>5.03</b></td><td><b>12.61</b></td><td><b>16.79</b></td></tr>
+                                    <tr class="row-sep"><td>ResNet50</td><td>LiDAR</td><td>RGB</td><td>4.66</td><td>12.58</td><td>18.65</td></tr>
+                                    <tr><td>DINOv2</td><td>LiDAR</td><td>RGB</td><td><b>7.27</b></td><td><b>14.90</b></td><td><b>21.03</b></td></tr>
+                                    <tr><td>DINOv3</td><td>LiDAR</td><td>RGB</td><td>4.60</td><td>12.38</td><td>17.82</td></tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="is-size-7 has-text-left">Lip-Loc, average over all four forests. The LiDAR rows use a
-                            HOTFormerLoc LiDAR encoder.</p>
+                        <p class="is-size-7 has-text-left">Lip-Loc, average over all four forests. The LiDAR rows use a HOTFormerLoc LiDAR encoder. Bold marks the best result per column within each ground/aerial modality pair.</p>
+
                         <h3 class="title is-4">Multi-Modal Place Recognition (MMPR)</h3>
                         <p>Fusing RGB and LiDAR improves over image-only retrieval, but LiDAR-only methods remain
                             stronger, so current fusion is not adaptive enough to exploit RGB when it helps and ignore
@@ -754,42 +507,44 @@
                         <div class="table-container">
                             <table class="table is-striped is-narrow is-hoverable">
                                 <thead>
-                                    <tr>
-                                        <th>Method</th>
-                                        <th>R@1</th>
-                                        <th>R@5</th>
-                                        <th>R@10</th>
-                                    </tr>
+                                    <tr><th>Method</th><th>R@1</th><th>R@5</th><th>R@10</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>MinkLoc++ (ResNet18)</td>
-                                        <td>29.2</td>
-                                        <td>49.7</td>
-                                        <td>60.7</td>
-                                    </tr>
-                                    <tr>
-                                        <td>MinkLoc++v2 (ResNet50)</td>
-                                        <td>43.0</td>
-                                        <td>65.2</td>
-                                        <td>74.2</td>
-                                    </tr>
-                                    <tr class="best">
-                                        <td>MinkLoc++v2 (DINOv2)</td>
-                                        <td>47.8</td>
-                                        <td>72.7</td>
-                                        <td>81.9</td>
-                                    </tr>
-                                    <tr>
-                                        <td>UMF (ResNet50)</td>
-                                        <td>18.8</td>
-                                        <td>36.3</td>
-                                        <td>46.6</td>
-                                    </tr>
+                                    <tr><td>MinkLoc++ (ResNet18)</td><td>29.2</td><td>49.7</td><td>60.7</td></tr>
+                                    <tr><td>MinkLoc++v2 (ResNet50)</td><td>43.0</td><td>65.2</td><td>74.2</td></tr>
+                                    <tr><td>MinkLoc++v2 (DINOv2)</td><td><b>47.8</b></td><td><b>72.7</b></td><td><b>81.9</b></td></tr>
+                                    <tr><td>UMF (ResNet50)</td><td>18.8</td><td>36.3</td><td>46.6</td></tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman.</p>
+                        <p class="is-size-7 has-text-left">Average over Karawatha and Venman. Bold marks the best result per column.</p>
+
+                        <p>We also evaluate each modality branch of MinkLoc++ on its own, and simulate a coarse GNSS prior under the canopy by only
+                            accepting retrievals within 100 m or 50 m (3-&sigma;) of the query. Trained with modality dropout, the image-only branch of
+                            MinkLoc++v2 (DINOv2) reaches <b>4.0/8.9/12.5</b> Recall@1/5/10. That is more than double the best visual place
+                            recognition baselines above (at most 1.7/3.5/5.3), so grounding image training in 3D geometry gives a far
+                            better image representation than the VPR methods learn from images alone. The trade-off is lower LiDAR-only accuracy
+                            (51.6 to 35.9 Recall@1).</p>
+                        <div class="table-container">
+                            <table class="table is-striped is-narrow is-hoverable">
+                                <thead>
+                                    <tr><th rowspan="2">Method</th><th rowspan="2">GNSS limit</th><th colspan="3">Image-only</th><th colspan="3">LiDAR-only</th><th colspan="3">Multi-modal</th></tr>
+                                    <tr><th>R@1</th><th>R@5</th><th>R@10</th><th>R@1</th><th>R@5</th><th>R@10</th><th>R@1</th><th>R@5</th><th>R@10</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>MinkLoc++ (ResNet18)</td><td>None</td><td>1.0</td><td>2.4</td><td>3.4</td><td>36.2</td><td>58.5</td><td>69.5</td><td>29.2</td><td>49.7</td><td>60.7</td></tr>
+                                    <tr><td>MinkLoc++v2 (ResNet50)</td><td>None</td><td>0.6</td><td>1.9</td><td>3.6</td><td>50.4</td><td>72.1</td><td>80.0</td><td>43.0</td><td>65.2</td><td>74.2</td></tr>
+                                    <tr><td>MinkLoc++v2 (DINOv2)</td><td>None</td><td>1.0</td><td>4.0</td><td>7.0</td><td><b>51.6</b></td><td><b>75.4</b></td><td><b>83.1</b></td><td><b>47.8</b></td><td><b>72.7</b></td><td><b>81.9</b></td></tr>
+                                    <tr><td>MinkLoc++v2 (DINOv2)<sup>&Dagger;</sup></td><td>None</td><td><b>4.0</b></td><td><b>8.9</b></td><td><b>12.5</b></td><td>35.9</td><td>59.7</td><td>70.4</td><td>41.7</td><td>65.8</td><td>76.0</td></tr>
+                                    <tr class="row-sep"><td>MinkLoc++v2 (DINOv2)</td><td>100 m</td><td>11.1</td><td>33.0</td><td>48.8</td><td><b>73.6</b></td><td><b>91.6</b></td><td><b>95.7</b></td><td><b>70.9</b></td><td><b>90.0</b></td><td><b>95.1</b></td></tr>
+                                    <tr><td>MinkLoc++v2 (DINOv2)<sup>&Dagger;</sup></td><td>100 m</td><td><b>16.5</b></td><td><b>38.8</b></td><td><b>53.3</b></td><td>65.9</td><td>85.5</td><td>91.9</td><td>67.0</td><td>86.4</td><td>92.4</td></tr>
+                                    <tr class="row-sep"><td>MinkLoc++v2 (DINOv2)</td><td>50 m</td><td>28.2</td><td>73.1</td><td>90.7</td><td><b>84.5</b></td><td><b>98.3</b></td><td><b>99.9</b></td><td><b>81.8</b></td><td><b>98.2</b></td><td><b>99.8</b></td></tr>
+                                    <tr><td>MinkLoc++v2 (DINOv2)<sup>&Dagger;</sup></td><td>50 m</td><td><b>32.9</b></td><td><b>76.5</b></td><td><b>92.5</b></td><td>79.6</td><td>96.9</td><td>99.8</td><td>79.8</td><td>97.3</td><td><b>99.8</b></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="is-size-7 has-text-left">Performance of each MinkLoc++ modality branch, with pseudo-GNSS constraints that limit the retrieval search space around the query. Average over Karawatha and Venman. Bold marks the best result per column within each GNSS limit.<br>
+                            <sup>&Dagger;</sup> indicates modality dropout augmentation was used.</p>
 
                         <h3 class="title is-4">Towards Large-Scale Pre-training with High Altitude LiDAR</h3>
                         <p>Beyond benchmarking, the high altitude (HA) LiDAR layer of M3GA-Wild points to a scalable source of 3D

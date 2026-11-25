@@ -170,6 +170,10 @@ tr.best td {
     font-weight: 700
 }
 
+tr.row-sep > td {
+  border-top: 2px solid #dbdbdb;
+}
+
 .placeholder {
     border: 2px dashed #999;
     padding: 2.5rem 1rem;
