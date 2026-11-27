@@ -42,15 +42,13 @@
                         <div class="publication-links"><span class="link-block"><a
                                     href="https://arxiv.org/abs/2609.23003"
                                     class="external-link button is-normal is-rounded is-dark">
-                                    
-                        <span class="icon"><i
-                            class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+                        <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
                         <span class="link-block"><a href="https://github.com/csiro-robotics/M3GA-Wild"
                             class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
                                             class="fab fa-github"></i></span><span>Code</span></a></span>
-                        <span class="link-block"><a href="https://csiro-robotics.github.io/M3GA-Wild"
+                        <!-- <span class="link-block"><a href="https://csiro-robotics.github.io/M3GA-Wild"
                             class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
-                                            class="fab fa-youtube"></i></span><span>Video</span></a></span>
+                                            class="fab fa-youtube"></i></span><span>Video</span></a></span> -->
                         <span class="link-block"><a href="https://data.csiro.au/collection/79124"
                             class="external-link button is-normal is-rounded is-dark"><span class="icon"><i
                                             class="fas fa-database"></i></span><span>Dataset</span></a></span>
@@ -101,9 +99,16 @@
             <div class="columns is-centered has-text-centered">
                 <div class="column is-four-fifths">
                     <h2 class="title is-3">Video</h2>
-                    <div class="publication-video">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&amp;showinfo=0"
-                            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <div class="content has-text-centered">
+                        <video id="replay-video"
+                                controls
+                                muted
+                                preload
+                                playsinline
+                                width="100%">
+                        <source src="./static/videos/teaser.mp4"
+                                type="video/mp4">
+                        </video>
                     </div>
                 </div>
             </div>
